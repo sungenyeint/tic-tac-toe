@@ -5,10 +5,10 @@ import './tictactoe.css';
 
 function Square({value, onSquareClick})
 {
-    return <button type="button" className="square"
+    return <span className="box1"
                     onClick={onSquareClick}>
             {value}
-    </button>
+    </span>
 }
 
 function calculateWinner(squares)
@@ -33,19 +33,29 @@ function calculateWinner(squares)
     return null;
 }
 
+function Player({xIsNext})
+{
+    if (xIsNext) {
+        return (<div className="player">
+            <span className="xturn active">X's turn</span>
+            <span className="oturn">O's turn</span>
+            <div className="slider"></div>
+        </div>);
+    } else {
+        return (<div className="player active">
+            <span className="xturn">X's turn</span>
+            <span className="oturn active">O's turn</span>
+            <div className="slider"></div>
+        </div>);
+    }
+}
+
 export default function TicTacToe()
 {
     const [xIsNext, setXIsNext] = useState(true);
     const [squares, setSquares] = useState(Array(9).fill(null));
 
     const winner = calculateWinner(squares);
-    let status;
-
-    if (winner) {
-        status = "winner : " + winner;
-    } else {
-        status = "next player : " + (xIsNext ? 'X' : 'O');
-    }
 
     const handleClick = (i) => {
         if (squares[i] || calculateWinner(squares)) {
@@ -61,22 +71,45 @@ export default function TicTacToe()
         setXIsNext(!xIsNext);
     }
 
-    return (<div>
-        <h1>{status}</h1>
-        <div>
-            <Square value={squares[0]} onSquareClick={()=>handleClick(0)}/>
-            <Square value={squares[1]} onSquareClick={()=>handleClick(1)}/>
-            <Square value={squares[2]} onSquareClick={()=>handleClick(2)}/>
-        </div>
-        <div>
-            <Square value={squares[3]} onSquareClick={()=>handleClick(3)}/>
-            <Square value={squares[4]} onSquareClick={()=>handleClick(4)}/>
-            <Square value={squares[5]} onSquareClick={()=>handleClick(5)}/>
-        </div>
-        <div>
-            <Square value={squares[6]} onSquareClick={()=>handleClick(6)}/>
-            <Square value={squares[7]} onSquareClick={()=>handleClick(7)}/>
-            <Square value={squares[8]} onSquareClick={()=>handleClick(8)}/>
-        </div>
-    </div>);
+    const replayHandler = () => {
+        setSquares(Array(9).fill(null));
+        setXIsNext(true);
+    }
+
+    if (winner) {
+        return (<div className="container">
+            <div className="result-box">
+                <h1 className="won-text">Player {winner} won the game!</h1>
+                <div className="btn">
+                    <button type="button"
+                            onClick={replayHandler}>Replay</button>
+                </div>
+            </div>
+        </div>);
+    } else {
+        return (<div className="container">
+            <div className="playboard">
+                <div className="detail">
+                    <Player xIsNext={xIsNext}/>
+                </div>
+                <div className="play-area">
+                    <section>
+                        <Square value={squares[0]} onSquareClick={()=>handleClick(0)}/>
+                        <Square value={squares[1]} onSquareClick={()=>handleClick(1)}/>
+                        <Square value={squares[2]} onSquareClick={()=>handleClick(2)}/>
+                    </section>
+                    <section>
+                        <Square value={squares[3]} onSquareClick={()=>handleClick(3)}/>
+                        <Square value={squares[4]} onSquareClick={()=>handleClick(4)}/>
+                        <Square value={squares[5]} onSquareClick={()=>handleClick(5)}/>
+                    </section>
+                    <section>
+                        <Square value={squares[6]} onSquareClick={()=>handleClick(6)}/>
+                        <Square value={squares[7]} onSquareClick={()=>handleClick(7)}/>
+                        <Square value={squares[8]} onSquareClick={()=>handleClick(8)}/>
+                    </section>
+                </div>
+            </div>
+        </div>);
+    }
 }
