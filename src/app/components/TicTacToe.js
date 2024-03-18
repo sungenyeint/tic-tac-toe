@@ -37,14 +37,14 @@ function Player({xIsNext})
 {
     if (xIsNext) {
         return (<div className="player">
-            <span className="xturn active">X's turn</span>
-            <span className="oturn">O's turn</span>
+            <span className="xturn active">X turn</span>
+            <span className="oturn">O turn</span>
             <div className="slider"></div>
         </div>);
     } else {
         return (<div className="player active">
-            <span className="xturn">X's turn</span>
-            <span className="oturn active">O's turn</span>
+            <span className="xturn">X turn</span>
+            <span className="oturn active">O turn</span>
             <div className="slider"></div>
         </div>);
     }
