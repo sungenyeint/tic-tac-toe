@@ -54,6 +54,7 @@ export default function TicTacToe()
 {
     const [xIsNext, setXIsNext] = useState(true);
     const [squares, setSquares] = useState(Array(9).fill(null));
+    const [restart, setRestart] = useState(false);
 
     const winner = calculateWinner(squares);
 
@@ -69,17 +70,22 @@ export default function TicTacToe()
         }
         setSquares(nextSquares);
         setXIsNext(!xIsNext);
+        if (squares.filter(i=>i != null).length === 8) {
+            setRestart(true);
+        }
     }
 
     const replayHandler = () => {
         setSquares(Array(9).fill(null));
         setXIsNext(true);
+        setRestart(false);
     }
-
-    if (winner) {
+console.log('winner ', winner);
+    if (winner || restart) {
+        const status = winner ? 'Player ' + winner + ' won the game!' : 'Match has been drawn!';
         return (<div className="container">
             <div className="result-box">
-                <h1 className="won-text">Player {winner} won the game!</h1>
+                <h1 className="won-text">{status}</h1>
                 <div className="btn">
                     <button type="button"
                             onClick={replayHandler}>Replay</button>
