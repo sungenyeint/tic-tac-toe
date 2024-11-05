@@ -6,11 +6,11 @@
   }
 
   body {
-    background-color: #141114;
+    background-color: #000000;
   }
 
   :root {
-    --pink: rgb(235, 57, 57);
+    --pink: rgb(69, 9, 235);
     --pink-shadow: #181717;
   }
 
